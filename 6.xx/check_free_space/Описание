@@ -1,0 +1,5 @@
+Как использовать на хосте — если нужны индивидуальные пороги для конкретных разделов, добавляй в Configuration → Hosts → Macros:
+{$DISK_WARN_GB:/var}   10    # WARNING для /var при < 10 ГБ
+{$DISK_CRIT_GB:/var}    5    # CRITICAL для /var при < 5 ГБ
+{$DISK_WARN_GB:D:}     20    # WARNING для D: при < 20 ГБ
+{$DISK_CRIT_GB:D:}     10    # CRITICAL для D: при < 10 ГБ
