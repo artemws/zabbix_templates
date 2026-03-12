@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2026-03-12T00:00:00Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>dc579cd7a1a34222933f24f52a68bcd8</uuid>
+            <name>Linux servers</name>
+        </template_group>
+        <template_group>
+            <uuid>66aee4cd68f24908be85c4b556234986</uuid>
+            <name>Виртуалки Linux</name>
+        </template_group>
+        <template_group>
+            <uuid>b42a5e853af34d91aa538cc7773a8b6d</uuid>
+            <name>Виртуалки Windows</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>1303a3703b794835aba8408495d1738b</uuid>
+            <template>Check free space</template>
+            <name>Check free space</name>
+            <description>Мониторинг свободного места на дисках.
+Пороги по умолчанию: {$DISK_WARN_GB} и {$DISK_CRIT_GB}.
+Для конкретного раздела на хосте можно переопределить через контекстный макрос:
+  {$DISK_WARN_GB:/var} = 10
+  {$DISK_CRIT_GB:C:} = 10</description>
+            <groups>
+                <group>
+                    <name>Linux servers</name>
+                </group>
+                <group>
+                    <name>Виртуалки Linux</name>
+                </group>
+                <group>
+                    <name>Виртуалки Windows</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>67057e00e3f24b728c750ed6b819ce8a</uuid>
+                    <name>Disk space check /</name>
+                    <key>vfs.fs.size[/,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>3fd3c507a6e54d8fac14c06cbc23075a</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[/,free])&lt;{$DISK_CRIT_GB:/}</expression>
+                            <name>Free space on / less than {$DISK_CRIT_GB:/}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>03b4d5e8abbf461e8471c2c57dcf933e</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[/,free])&lt;{$DISK_WARN_GB:/} and last(/Check free space/vfs.fs.size[/,free])>={$DISK_CRIT_GB:/}</expression>
+                            <name>Free space on / less than {$DISK_WARN_GB:/}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>b85842a5c16f4c14a4dac0ac7332d97a</uuid>
+                    <name>Disk space check /boot</name>
+                    <key>vfs.fs.size[/boot,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>287872517efc493ab89cdb8ee464576b</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[/boot,free])&lt;{$DISK_CRIT_GB:/boot}</expression>
+                            <name>Free space on /boot less than {$DISK_CRIT_GB:/boot}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>03c1b4508fed44d694b10044a7390730</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[/boot,free])&lt;{$DISK_WARN_GB:/boot} and last(/Check free space/vfs.fs.size[/boot,free])>={$DISK_CRIT_GB:/boot}</expression>
+                            <name>Free space on /boot less than {$DISK_WARN_GB:/boot}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>d41431ff396a4baab9b07ba1ed9dca4d</uuid>
+                    <name>Disk space check C:</name>
+                    <key>vfs.fs.size[C:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>12c8bb3bf2a743eca16d5ada7c964f91</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[C:,free])&lt;{$DISK_CRIT_GB:C:}</expression>
+                            <name>Free space on C: less than {$DISK_CRIT_GB:C:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>1b922fe0d330466d8f2eeba882e02454</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[C:,free])&lt;{$DISK_WARN_GB:C:} and last(/Check free space/vfs.fs.size[C:,free])>={$DISK_CRIT_GB:C:}</expression>
+                            <name>Free space on C: less than {$DISK_WARN_GB:C:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>a0f4fe569d674a2b9c54302d02858542</uuid>
+                    <name>Disk space check D:</name>
+                    <key>vfs.fs.size[D:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>8da7430e77624e77af37767a1f778df4</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[D:,free])&lt;{$DISK_CRIT_GB:D:}</expression>
+                            <name>Free space on D: less than {$DISK_CRIT_GB:D:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>6f720482ffff4b669bbcec311f2c450c</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[D:,free])&lt;{$DISK_WARN_GB:D:} and last(/Check free space/vfs.fs.size[D:,free])>={$DISK_CRIT_GB:D:}</expression>
+                            <name>Free space on D: less than {$DISK_WARN_GB:D:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>c8d37aab4b0345619a45d7510f0603af</uuid>
+                    <name>Disk space check E:</name>
+                    <key>vfs.fs.size[E:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>3c31fcd0d4b249129eeb4d67c0e56d9b</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[E:,free])&lt;{$DISK_CRIT_GB:E:}</expression>
+                            <name>Free space on E: less than {$DISK_CRIT_GB:E:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>d1df1e62f8c24457b9dad6fae2813343</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[E:,free])&lt;{$DISK_WARN_GB:E:} and last(/Check free space/vfs.fs.size[E:,free])>={$DISK_CRIT_GB:E:}</expression>
+                            <name>Free space on E: less than {$DISK_WARN_GB:E:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>aeb3d692e4a54c879e9b605ea80f328c</uuid>
+                    <name>Disk space check F:</name>
+                    <key>vfs.fs.size[F:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>0ca1af38242641319c00335381af6996</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[F:,free])&lt;{$DISK_CRIT_GB:F:}</expression>
+                            <name>Free space on F: less than {$DISK_CRIT_GB:F:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>fb014339e5d4429da8c4164ad05d0d0c</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[F:,free])&lt;{$DISK_WARN_GB:F:} and last(/Check free space/vfs.fs.size[F:,free])>={$DISK_CRIT_GB:F:}</expression>
+                            <name>Free space on F: less than {$DISK_WARN_GB:F:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>05e5e764a6564044a7992ff60c10ee9a</uuid>
+                    <name>Disk space check G:</name>
+                    <key>vfs.fs.size[G:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>c35f68247adb4e8d89e16f9867e527b1</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[G:,free])&lt;{$DISK_CRIT_GB:G:}</expression>
+                            <name>Free space on G: less than {$DISK_CRIT_GB:G:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>2a291e0687fa4fc9847881755025a023</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[G:,free])&lt;{$DISK_WARN_GB:G:} and last(/Check free space/vfs.fs.size[G:,free])>={$DISK_CRIT_GB:G:}</expression>
+                            <name>Free space on G: less than {$DISK_WARN_GB:G:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>705bb3c158b34c91a1e7d02d63c4c873</uuid>
+                    <name>Disk space check H:</name>
+                    <key>vfs.fs.size[H:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>635437749b2b4f29b4392401ef1bbb29</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[H:,free])&lt;{$DISK_CRIT_GB:H:}</expression>
+                            <name>Free space on H: less than {$DISK_CRIT_GB:H:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>a8e03b0e0523492284e52c8986acb2e4</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[H:,free])&lt;{$DISK_WARN_GB:H:} and last(/Check free space/vfs.fs.size[H:,free])>={$DISK_CRIT_GB:H:}</expression>
+                            <name>Free space on H: less than {$DISK_WARN_GB:H:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>206ca87f93dd4f5cbb4e9756055c21ec</uuid>
+                    <name>Disk space check I:</name>
+                    <key>vfs.fs.size[I:,free]</key>
+                    <units>GB</units>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>
+                                <parameter>0.000000000931322574615478515625</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <uuid>b89df84e28b149bfb1746b1f08c46b6a</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[I:,free])&lt;{$DISK_CRIT_GB:I:}</expression>
+                            <name>Free space on I: less than {$DISK_CRIT_GB:I:}GB (CRITICAL)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                        <trigger>
+                            <uuid>44b0caec6315490d97ea2bd171af992d</uuid>
+                            <expression>last(/Check free space/vfs.fs.size[I:,free])&lt;{$DISK_WARN_GB:I:} and last(/Check free space/vfs.fs.size[I:,free])>={$DISK_CRIT_GB:I:}</expression>
+                            <name>Free space on I: less than {$DISK_WARN_GB:I:}GB (WARNING)</name>
+                            <opdata>Free: {ITEM.LASTVALUE}</opdata>
+                            <priority>WARNING</priority>
+                            <tags>
+                                <tag>
+                                    <tag>Space</tag>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$DISK_WARN_GB}</macro>
+                    <value>5</value>
+                    <description>Порог WARNING по умолчанию для всех разделов в ГБ. Для конкретного раздела переопределяй через контекст: {$DISK_WARN_GB:/var} = 10</description>
+                </macro>
+                <macro>
+                    <macro>{$DISK_CRIT_GB}</macro>
+                    <value>2</value>
+                    <description>Порог CRITICAL по умолчанию для всех разделов в ГБ. Для конкретного раздела переопределяй через контекст: {$DISK_CRIT_GB:/var} = 5</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
